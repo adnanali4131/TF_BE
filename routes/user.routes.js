@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const router = new express.Router();
+require('dotenv').config();
 
 // User Registration
 router.post('/users', async (req, res) => {
