@@ -4,12 +4,16 @@ const userRouter = require('./routes/user.routes');
 require('./db');
 require('dotenv').config();
 
-app.options('*', cors());
 const app = express();
-const port = 3000 || "https://tf-be.onrender.com";
+const port = process.env.PORT || 3000;
+
+
+app.use(cors());
+app.options('*', cors());
 
 app.use(express.json());
 app.use(userRouter);
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
