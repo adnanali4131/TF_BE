@@ -5,14 +5,20 @@ const router = require('./router');
 // User Registration
 router.post('/users', async (req, res) => {
   try {
+    // Check if email is already registered
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).send({ error: 'Email already registered' });
+    }
+
+    // If email not registered, create new user
     const user = new User(req.body);
-    console.log({ user })
     await user.save();
-    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT);
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
 
     res.status(201).send({ user, token });
   } catch (e) {
-    res.status(400).send(e);
+    res.status(500).send(e);
   }
 });
 
