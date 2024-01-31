@@ -8,7 +8,7 @@ router.post('/users', async (req, res) => {
     // Check if email is already registered
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
-      return res.status(400).send({ error: 'Email already registered' });
+      throw new Error('Email already registered')
     }
 
     // If email not registered, create new user
