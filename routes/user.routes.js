@@ -18,6 +18,9 @@ router.post('/users', async (req, res) => {
 
     res.status(201).send({ user, token });
   } catch (e) {
+    if (e.message === 'Email already registered') {
+      return res.status(409).send(e.message);
+    }
     res.status(500).send(e);
   }
 });
